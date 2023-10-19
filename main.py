@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-api_key = os.getenv("OPENAI_API_TOKEN")
+api_key = os.getenv("OPENAI_API_KEY")
 os.environ['OPENAI_API_KEY'] = api_key
 
 # Step 1. Load
@@ -56,7 +56,7 @@ prompt = hub.pull("rlm/rag-prompt")
 # LLM
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
-llm = ChatOpenAI(model_name="text-davinci-003", temperature=0)
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
 
 
 # RetrievalQA
@@ -67,7 +67,7 @@ qa_chain = RetrievalQA.from_chain_type(
 )
 question = "What are the approaches to Task Decomposition?"
 result = qa_chain({"query": question})
-result["result"]
+print(result["result"])
 
 """
 # Step 4. Retrieve
