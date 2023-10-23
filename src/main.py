@@ -15,7 +15,7 @@ from langchain.chat_models import ChatOpenAI
 VECTORSTORE_DIRECTORY = "vectordb"
 
 
-def main(file_paths: list[str], query: str):
+def main(file_paths: list[str], query: str, can_extract_images: bool) -> str:
     load_dotenv("config/.env")
     # api_key = os.getenv("OPENAI_API_KEY")
     # os.environ["OPENAI_API_KEY"] = api_key
@@ -28,7 +28,7 @@ def main(file_paths: list[str], query: str):
     # file_path = "assets/"+file_name
     print("file_path: ", file_paths)
     assert len(file_paths) == 1, "Only one file can be uploaded at a time."
-    loader = PyPDFLoader(file_paths[0], extract_images=True)
+    loader = PyPDFLoader(file_paths[0], extract_images=can_extract_images)
     data = loader.load()
 
 
@@ -98,13 +98,14 @@ title = "My chatPDF"
 # 設定Gradio UI介面，指定兩個文字輸入框
 file_name = gr.FileExplorer(label="Upload PDF file")
 question = gr.Textbox(placeholder="Enter the message", type="text")
+extract_images = gr.Checkbox(label="Extract images from PDF", default=False)
 
 
 # Gradio UI 介面
 ui=gr.Interface(
     fn=main,
     # inputs=gr.Textbox(placeholder="Enter the message..."),
-    inputs=[file_name, question],
+    inputs=[file_name, question, extract_images],
     # outputs=gr.HighlightedText(color_map={"0":"yellow"}),
     outputs="text",
     title=title
