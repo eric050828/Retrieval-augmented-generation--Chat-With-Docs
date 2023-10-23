@@ -1,4 +1,5 @@
-import os, sys
+import gradio as gr
+
 from dotenv import load_dotenv
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -11,18 +12,20 @@ from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 
 
-def main(file_name,query):
+def main(file_paths: list[str], query: str):
     load_dotenv("config/.env")
-    api_key = os.getenv("OPENAI_API_KEY")
-    os.environ["OPENAI_API_KEY"] = api_key
+    # api_key = os.getenv("OPENAI_API_KEY")
+    # os.environ["OPENAI_API_KEY"] = api_key
 
 
     # Step 1. Load
     '''
     載入文件(僅支援PDF)
     '''
-    file_path = "assets/"+file_name
-    loader = PyPDFLoader(file_path)
+    # file_path = "assets/"+file_name
+    print("file_path: ", file_paths)
+    assert len(file_paths) == 1, "Only one file can be uploaded at a time."
+    loader = PyPDFLoader(file_paths[0])
     data = loader.load()
 
 
@@ -84,11 +87,9 @@ def main(file_name,query):
     return result["result"]
 
 
-import gradio as gr
-
 title = "My chatPDF"
 # 設定Gradio UI介面，指定兩個文字輸入框
-file_name = gr.Textbox(placeholder="Enter the file name", type="text")
+file_name = gr.FileExplorer(label="Upload PDF file")
 question = gr.Textbox(placeholder="Enter the message", type="text")
 
 
