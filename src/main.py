@@ -12,7 +12,10 @@ from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 
 
-def main(file_paths: list[str], query: str):
+VECTORSTORE_DIRECTORY = "vectordb"
+
+
+def main(file_paths: list[str], query: str, can_extract_images: bool) -> str:
     load_dotenv("config/.env")
     # api_key = os.getenv("OPENAI_API_KEY")
     # os.environ["OPENAI_API_KEY"] = api_key
@@ -25,7 +28,7 @@ def main(file_paths: list[str], query: str):
     # file_path = "assets/"+file_name
     print("file_path: ", file_paths)
     assert len(file_paths) == 1, "Only one file can be uploaded at a time."
-    loader = PyPDFLoader(file_paths[0])
+    loader = PyPDFLoader(file_paths[0], extract_images=can_extract_images)
     data = loader.load()
 
 
@@ -43,8 +46,12 @@ def main(file_paths: list[str], query: str):
     將embedding和splits儲存至vectorstore
     '''
 
-    vectorstore = Chroma.from_documents(documents=all_splits,
-                                        embedding=OpenAIEmbeddings())
+    vectordb = Chroma.from_documents(
+        documents=all_splits,
+        embedding=OpenAIEmbeddings(),
+        persist_directory=VECTORSTORE_DIRECTORY,
+    )
+    vectordb.persist()
 
 
     # Step 4. Retrieval QA
@@ -78,7 +85,7 @@ def main(file_paths: list[str], query: str):
     ## QA chain
     qa_chain = RetrievalQA.from_chain_type(
         llm,
-        retriever=vectorstore.as_retriever(),
+        retriever=vectordb.as_retriever(),
         chain_type_kwargs={"prompt": prompt}
     )
     result = qa_chain({"query": query})
@@ -91,13 +98,14 @@ title = "My chatPDF"
 # 設定Gradio UI介面，指定兩個文字輸入框
 file_name = gr.FileExplorer(label="Upload PDF file")
 question = gr.Textbox(placeholder="Enter the message", type="text")
+extract_images = gr.Checkbox(label="Extract images from PDF", default=False)
 
 
 # Gradio UI 介面
 ui=gr.Interface(
     fn=main,
     # inputs=gr.Textbox(placeholder="Enter the message..."),
-    inputs=[file_name, question],
+    inputs=[file_name, question, extract_images],
     # outputs=gr.HighlightedText(color_map={"0":"yellow"}),
     outputs="text",
     title=title
