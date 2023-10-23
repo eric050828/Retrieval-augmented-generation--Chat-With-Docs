@@ -1,3 +1,5 @@
+import gradio as gr
+
 from dotenv import load_dotenv
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -84,8 +86,6 @@ def main(file_paths: list[str], query: str):
     # Output
     return result["result"]
 
-
-import gradio as gr
 
 title = "My chatPDF"
 # 設定Gradio UI介面，指定兩個文字輸入框
