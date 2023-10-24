@@ -96,7 +96,7 @@ def main(file_paths: list[str], query: str, can_extract_images: bool) -> str:
 
 title = "My chatPDF"
 # 設定Gradio UI介面，指定兩個文字輸入框
-file_name = gr.FileExplorer(label="Upload PDF file")
+file_name = gr.FileExplorer(label="Upload PDF file", glob="assets/*")
 question = gr.Textbox(placeholder="Enter the message", type="text")
 extract_images = gr.Checkbox(label="Extract images from PDF", default=False)
 
