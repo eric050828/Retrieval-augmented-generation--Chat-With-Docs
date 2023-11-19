@@ -1,10 +1,11 @@
-# My ChatPDF
+# Chat with Docs
+
+This repo contains a web app made with Gradio. it integrates an LLM from OpenAI using Langchain for exploring an external document, this approach is called Retrieval augmented generation
 
 ## Installtion
 
-
 ```shell
-$ cd RAG-sample
+$ cd Retrieval-augmented-generation--Chat-With-Docs
 $ mkdir config
 
 $ python -m venv .venv
@@ -16,6 +17,7 @@ $ source .venv/bin/activate
 ## Add .env file
 
 Edit config/.env
+
 ```
 OPENAI_API_KEY=my-open-ai-api-key
 ```
