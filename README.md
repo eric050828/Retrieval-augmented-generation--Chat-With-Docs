@@ -27,3 +27,29 @@ OPENAI_API_KEY=my-open-ai-api-key
 ```shell
 (.venv)$ python src/main.py
 ```
+
+## How to Use
+
+1. Upload the document to be retrieved (_.pdf, _.txt).
+2. Ask your assistant questions.
+
+## Future Improvements
+
+Here are some features and improvements that I plan to implement in future versions:
+
+### Features
+
+- [] Feature 1: Adding the "Create a new chat" function.
+
+### Enhancements
+
+- [ ] Improve UI/UX: Enhancing the chatbot interface.
+
+### Modification
+
+- [ ] File Upload: The method for file uploads will change from selection to manual uploading.
+
+### Refactoring
+
+- [ ] Codebase Cleanup: Perform general code cleanup and remove redundant or unused code sections.
+- [ ] Modularize Components: Break down large components into smaller, reusable modules for better organization.
