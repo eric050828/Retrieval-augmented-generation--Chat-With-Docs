@@ -13,7 +13,8 @@ from pathlib import Path
 class Model:
     def __init__(self, ):
         load_dotenv("../config/.env")
-        self.LLM = ChatOpenAI(model_name="gpt-3.5-turbo", 
+        self.ai_model ="gpt-3.5-turbo"
+        self.LLM = ChatOpenAI(model_name=self.ai_model, 
                               temperature=0,)
         self.VECTORSTORE_DIRECTORY = "vectordb"
         self.EMBEDDING = OpenAIEmbeddings()
@@ -23,7 +24,7 @@ class Model:
 
     def generatePrompt(self,):
         input_variables = ["question", "context"]
-        prompt_template = "You are a very powerful assistant for question-answering tasks. Please use the retrieved context pieces to answer the question and step-by-step reasoning to provide more in-depth and accurate information. If you don't know the answer, simply say you don't know to avoid uncertainty or inaccurate results. Ensure that your responses are based on reliable sources and comprehensive information retrieval.\nQuestion: {question} \nContext: {context} \nAnswer:"
+        prompt_template = "You are a very powerful assistant for question-answering tasks. Please use the retrieved context pieces to answer the questions, step-by-step reasoning and inference to provide deeper and more accurate information. If you don't know the answer, simply say you don't know to avoid uncertain or inaccurate results. Ensure that your responses are based on reliable sources, comprehensive data retrieval, and known information.\nQuestion: {question} \nContext: {context} \nAnswer:"
         messages = [
             HumanMessagePromptTemplate(
                 prompt=PromptTemplate(
@@ -38,10 +39,12 @@ class Model:
     def fileIsExisted(self, file_path: str):
         """檢查檔案是否已被儲存在vectorDB中"""
         retrieved_values = self.vectordb.get(where={"source":file_path})
-        print(retrieved_values)
+        # print(retrieved_values)
         for metadata in retrieved_values["metadatas"]:
             if file_path == metadata["source"]:
+                print("This file has been saved.")
                 return True
+        print("This file has not been saved yet.")
         return False
         
 
@@ -133,9 +136,9 @@ class Model:
         if not self.fileIsExisted(file_path):
             file_type = Path(file_path).suffix
             data = self.load(file_type, file_path, configs)
-            print("data:",data)
+            # print("data:",data)
             all_splits = self.split(data)
-            print("Chunks:",all_splits)
+            # print("Chunks:",all_splits)
             self.store(all_splits)
             return True
         return False

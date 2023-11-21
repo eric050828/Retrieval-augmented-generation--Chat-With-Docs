@@ -39,7 +39,10 @@ Here are some features and improvements that I plan to implement in future versi
 
 ### Features
 
-- [] Feature 1: Adding the "Create a new chat" function.
+- [x] Feature 1: Adding the "Settings" tab.
+- [ ] Feature 2: Adding the "Create a new chat" function.
+- [ ] Feature 3: Adding the capability to load audio files.
+- [ ] Feature 4: Adding the function to export chat history.
 
 ### Enhancements
 
@@ -47,7 +50,7 @@ Here are some features and improvements that I plan to implement in future versi
 
 ### Modification
 
-- [ ] File Upload: The method for file uploads will change from selection to manual uploading.
+- [x] File Upload: The method for file uploads will change from selection to manual uploading.
 
 ### Refactoring
 

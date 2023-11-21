@@ -20,3 +20,10 @@ class Controller:
     ) -> bool:
         """存入檔案"""
         return self.model.storeFileIntoDataBase(file_path, configs)
+    
+    def setAiModel(
+        self, 
+        model_name:str
+    ):
+        self.model.ai_model = model_name
+        print("Model has been changed:",self.model.ai_model)
