@@ -20,7 +20,7 @@ class MainInterface:
 <p>This application utilizes Gradio as its GUI, employing GPT-3.5-turbo and GPT-4 as the primary Large Language Models (LLMs). This app implements the Retrieval Augmented Generation (RAG) application using Langchain.</p>
 <p>This version is simplified, and all uploaded information (including OpenAI API key, uploaded files, prompts, detailed settings, conversation logs, etc.) will be removed entirely when the webpage is closed or refreshed.</p>
 <p></p>
-<p>For detailed usage instructions, please refer to README.md.</p>
+<p>For detailed usage instructions, please refer to <a href='https://github.com/eric050828/Retrieval-augmented-generation--Chat-With-Docs/tree/master/src/simple_version/README.md'>README.md.</a></p>
                         </div>""")
             file_title = gr.Markdown("# File: *Upload a file first...*", )
             with gr.Row():
@@ -76,7 +76,7 @@ class MainInterface:
                     textbox.unrender()
                     gr.ChatInterface(self.get_response, chatbot=chatbot, textbox=textbox, submit_btn=None, additional_inputs=[prompt])
             
-            footer = gr.HTML("""<div style='text-align:center'>Author: NTUST MIS 李丞穎</div>""")
+            footer = gr.HTML("""<div style='text-align:center'><p>Author: NTUST MIS 李丞穎</p><a href='https://github.com/eric050828/Retrieval-augmented-generation--Chat-With-Docs'>Retrieval-augmented-generation--Chat-With-Docs</a></div>""")
         
         # Launch
         self.interface.queue()

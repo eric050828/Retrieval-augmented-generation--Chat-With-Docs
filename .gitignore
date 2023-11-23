@@ -227,6 +227,6 @@ Temporary Items
 
 .venv/
 .env
-*test.py
+test/
 vectordb/
 assets
