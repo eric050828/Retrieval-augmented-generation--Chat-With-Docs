@@ -74,7 +74,7 @@ class MainInterface:
                     chatbot.unrender()
                     textbox = gr.TextArea(scale=7, placeholder="Type a message...", show_label=False, lines=1, max_lines=6)
                     textbox.unrender()
-                    gr.ChatInterface(self.get_response, chatbot=chatbot, textbox=textbox, submit_btn=None, additional_inputs=[prompt])
+                    gr.ChatInterface(self.get_response, chatbot=chatbot, textbox=textbox, submit_btn=None, additional_inputs=[file, prompt])
             
             footer = gr.HTML("""<div style='text-align:center'><p>Author: NTUST MIS 李丞穎</p><a href='https://github.com/eric050828/Retrieval-augmented-generation--Chat-With-Docs'>Retrieval-augmented-generation--Chat-With-Docs</a></div>""")
         
@@ -93,18 +93,20 @@ class MainInterface:
         file_name = Path(file_path).name
         file_type = Path(file_path).suffix
         # 取得檔案的父目錄名稱
-        self.collection_name = os.path.basename(os.path.dirname(file_path))
+        collection_name = os.path.basename(os.path.dirname(file_path))
         if file_type != ".pdf":
             gr.Info(f"Only support PDF file.\nUnsupported file type: '{file_type}'")
             return "# File: *Upload a file first...*"
         
-        self.controller.upload_file(self.collection_name, file_path, can_extract_images)
+        self.controller.upload_file(collection_name, file_path, can_extract_images)
         gr.Info(f"File:'{file_name}' upload is complete.")
         return f"# File: *{file_name}*"
 
 
-    def get_response(self, query, history, prompt):
-        response = self.controller.get_response(self.collection_name, query, prompt)
+    def get_response(self, query, history, file, prompt):
+        file_path = file.name
+        collection_name = os.path.basename(os.path.dirname(file_path))
+        response = self.controller.get_response(collection_name, query, prompt)
         return response
     
 
